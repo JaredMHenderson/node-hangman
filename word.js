@@ -1,35 +1,47 @@
-let words = ["mountain", "bicycle", "beer", "broncos", "rockies"]
+let Letter = require('./letter.js')
 
-let Word = function()
+
+
+const Word = function()
 {
+    this.words = ["mountain", "bicycle", "beer", "broncos", "rockies"];
+    this.selectedWord;
+    this.lettersInWord;
+    this.numBlanks;
+    this.guessesLeft = [];
+    this.wrongLetters = [];
+    this.numBlanksAndSuccesses = [];
+    this.guessesLeft = 10;
     this.chooseWord = () =>
     {
-        let selectedWord = words[Math.floor(Math.random() * words.length)];
-        let lettersInWord = selectedWord.split("");
-        let numBlanks = lettersInWord.length;
+        this.selectedWord = this.words[Math.floor(Math.random() * this.words.length)];
+        this.lettersInWord = this.selectedWord.split("");
 
-        guessesLeft = [];
-        wrongLetters = [];
-        numBlanksAndSuccesses = [];
-        guessesLeft = 10;
+        
 
         // Populate numBlanksAndSuccesses with right number of blanks and successes
-        for (var i = 0; i < numBlanks; i++) {
-            numBlanksAndSuccesses.push("_");
+        for (var i = 0; i < this.selectedWord.length; i++) {
+            this.numBlanksAndSuccesses.push(new Letter(this.selectedWord[i]));
         }
         // Test
         // console.log(selectedWord);
         // console.log(lettersInWord);
         // console.log(numBlanks);
-        console.log(`Word to guess : ${numBlanksAndSuccesses.join(" ")}`);
-        
-        
+        console.log(`Word to guess : ${this.numBlanksAndSuccesses.forEach((letter) => letter.display + ' ')}`);
     }
+    this.checkLetter = (guessedLetter) => {
+        this.numBlanksAndSuccesses.forEach(letter => {
+            if (letter.letter === guessedLetter)
+            {
+                letter.guessed = true;
+            }
+        });
+    }
+    
+    
     
 }
 
-let newWord = new Word();
-
-newWord.chooseWord();
+// 
 
 module.exports = Word;
